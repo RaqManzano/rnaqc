@@ -13,27 +13,32 @@
 
 ## Introduction
 
-**nf-core/rnaqc** is a bioinformatics pipeline that ...
+:::note
+Please note this is not an official nf-core pipeline but 
+it was build with [nf-core tools](https://nf-co.re/tools)
+. Documentation is not complete at the moment.
+:::
 
-<!-- TODO nf-core:
-   Complete this sentence with a 2-3 sentence summary of what types of data the pipeline ingests, a brief overview of the
-   major pipeline sections and the types of output it produces. You're giving an overview to someone new
-   to nf-core here, in 15-20 seconds. For an example, see https://github.com/nf-core/rnaseq/blob/master/README.md#introduction
--->
+**nf-core/rnaqc** is a bioinformatics pipeline that 
+performs QC on RNA-seq BAMs. QC workflow comprises:
 
-<!-- TODO nf-core: Include a figure that guides the user through the major workflow steps. Many nf-core
-     workflows use the "tube map" design for that. See https://nf-co.re/docs/contributing/design_guidelines#examples for examples.   -->
-<!-- TODO nf-core: Fill in short bullet-pointed list of the default steps in the pipeline -->
+1. Read QC: [`FastQC`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
+2. Picard [`CollectRNASeqMEtrics`](https://broadinstitute.github.io/picard/picard-metric-definitions.html#RnaSeqMetrics)
+3. GATK4 [`MarkDuplicates`](https://gatk.broadinstitute.org/hc/en-us/articles/360037052812-MarkDuplicates-Picard)
+4. Picard [`InsertSizeMetrics`](https://broadinstitute.github.io/picard/picard-metric-definitions.html#InsertSizeMetrics)
+5. Samtools [`Flagstat`](https://www.htslib.org/doc/samtools-flagstat.html)
+6. Present QC for raw reads: [`MultiQC`](http://multiqc.info/)
 
-1. Read QC ([`FastQC`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/))
-2. Present QC for raw reads ([`MultiQC`](http://multiqc.info/))
+QC subworkflow was mostly taken from [nf-core/rnafusion](https://github.com/nf-core/rnafusion/blob/3.0.1/subworkflows/local/qc_workflow.nf) 
+and adapted to perform just QC.
+
+
 
 ## Usage
 
 :::note
 If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/usage/installation) on how
-to set-up Nextflow. Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline)
-with `-profile test` before running the workflow on actual data.
+to set-up Nextflow. 
 :::
 
 <!-- TODO nf-core: Describe the minimum required steps to execute the pipeline, e.g. how to prepare samplesheets.
@@ -44,8 +49,8 @@ First, prepare a samplesheet with your input data that looks as follows:
 `samplesheet.csv`:
 
 ```csv
-sample,fastq_1,fastq_2
-CONTROL_REP1,AEG588A1_S1_L002_R1_001.fastq.gz,AEG588A1_S1_L002_R2_001.fastq.gz
+sample,bam
+CONTROL_REP1,AEG588A1_S1_L002_R1_001.bam
 ```
 
 Each row represents a fastq file (single-end) or a pair of fastq files (paired end).
@@ -54,10 +59,8 @@ Each row represents a fastq file (single-end) or a pair of fastq files (paired e
 
 Now, you can run the pipeline using:
 
-<!-- TODO nf-core: update the following command to include all required parameters for a minimal example -->
-
 ```bash
-nextflow run nf-core/rnaqc \
+nextflow run main.nf \
    -profile <docker/singularity/.../institute> \
    --input samplesheet.csv \
    --outdir <OUTDIR>
@@ -69,27 +72,18 @@ provided by the `-c` Nextflow option can be used to provide any configuration _*
 see [docs](https://nf-co.re/usage/configuration#custom-configuration-files).
 :::
 
-For more details and further functionality, please refer to the [usage documentation](https://nf-co.re/rnaqc/usage) and the [parameter documentation](https://nf-co.re/rnaqc/parameters).
-
-## Pipeline output
-
-To see the results of an example test run with a full size dataset refer to the [results](https://nf-co.re/rnaqc/results) tab on the nf-core website pipeline page.
-For more details about the output files and reports, please refer to the
-[output documentation](https://nf-co.re/rnaqc/output).
-
 ## Credits
 
-nf-core/rnaqc was originally written by Raquel Manzano.
+nf-core/rnaqc was originally written by Raquel Manzano 
+for internal purposes only. Anyone is welcome to use it 
+if you think is useful.
 
-We thank the following people for their extensive assistance in the development of this pipeline:
-
-<!-- TODO nf-core: If applicable, make list of people who have also contributed -->
 
 ## Contributions and Support
 
-If you would like to contribute to this pipeline, please see the [contributing guidelines](.github/CONTRIBUTING.md).
+If you would like to contribute to this pipeline, please 
+get in touch.
 
-For further information or help, don't hesitate to get in touch on the [Slack `#rnaqc` channel](https://nfcore.slack.com/channels/rnaqc) (you can join with [this invite](https://nf-co.re/join/slack)).
 
 ## Citations
 
