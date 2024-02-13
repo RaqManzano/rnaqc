@@ -18,7 +18,8 @@
                     "gatk4/markduplicates": {
                         "branch": "master",
                         "git_sha": "bc93a4b8904472ce64c6bb50b1fb0a1659b9cf78",
-                        "installed_by": ["modules"]
+                        "installed_by": ["modules"],
+                        "patch": "modules/nf-core/gatk4/markduplicates/gatk4-markduplicates.diff"
                     },
                     "multiqc": {
                         "branch": "master",

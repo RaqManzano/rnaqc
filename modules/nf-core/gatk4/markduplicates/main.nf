@@ -13,10 +13,10 @@ process GATK4_MARKDUPLICATES {
     path  fasta_fai
 
     output:
-    tuple val(meta), path("*cram"),     emit: cram,  optional: true
-    tuple val(meta), path("*bam"),      emit: bam,   optional: true
-    tuple val(meta), path("*.crai"),    emit: crai,  optional: true
-    tuple val(meta), path("*.bai"),     emit: bai,   optional: true
+//    tuple val(meta), path("*cram"),     emit: cram,  optional: true
+//    tuple val(meta), path("*bam"),      emit: bam,   optional: true
+//    tuple val(meta), path("*.crai"),    emit: crai,  optional: true
+//    tuple val(meta), path("*.bai"),     emit: bai,   optional: true
     tuple val(meta), path("*.metrics"), emit: metrics
     path "versions.yml",                emit: versions
 
@@ -58,6 +58,8 @@ process GATK4_MARKDUPLICATES {
         rm ${prefix_bam}
         samtools index ${prefix}
     fi
+    # remove created bam files as it is not necessary for QC purposes
+    rm ${prefix_bam}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
